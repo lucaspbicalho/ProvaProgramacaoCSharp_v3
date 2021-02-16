@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\CodigoCotacao.csv" />
+    <None Include="bin\Debug\DadosCotacao.csv" />
+    <None Include="bin\Debug\DadosMoeda.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -26,49 +26,58 @@ namespace RotinaMoeda
         }
         static void ConsumirAPI()
         {
-            while (true)
+            try
             {
-                List<Moeda> moedasMatch = new List<Moeda>() { };
-                List<Moeda> TodasMoedasPlanilha = new List<Moeda>() { };
-                List<MoedaModel> TodasMoedasCotacaoPlanilha = new List<MoedaModel>() { };
-                int codCotacao = 0;
-                using (var client = new HttpClient())
+                while (true)
                 {
-                    client.BaseAddress = new System.Uri("https://localhost:44309/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    List<Moeda> moedasMatch = new List<Moeda>() { };
+                    List<Moeda> TodasMoedasPlanilha = new List<Moeda>() { };
+                    List<MoedaModel> TodasMoedasCotacaoPlanilha = new List<MoedaModel>() { };
+                    int codCotacao = 0;
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new System.Uri("https://localhost:44309/");
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage response = client.GetAsync("moeda/GetItemFila").Result;
-                    if (response.IsSuccessStatusCode)
-                    {  //GET
-                        var moeda = response.Content.ReadAsStringAsync().Result;
-                        if (moeda.Contains("Fila Vazia"))
-                        {
-                            Console.WriteLine("Fila vazia " + DateTime.Now);
-                            //Para processamento.
-                            return;
-                        }
-                        else
-                        {
-                            Moeda moedaObj = JsonConvert.DeserializeObject<Moeda>(moeda);
-                            TodasMoedasPlanilha = retornaTodasMoedasPlanilha(moedaObj);
-                            TodasMoedasPlanilha = TodasMoedasPlanilha.OrderBy(ord => ord.data_inicio).ToList();
-                            codCotacao = retornaCodCotacao(moedaObj);
-                            if (codCotacao == 0)
+                        HttpResponseMessage response = client.GetAsync("moeda/GetItemFila").Result;
+                        if (response.IsSuccessStatusCode)
+                        {  //GET
+                            var moeda = response.Content.ReadAsStringAsync().Result;
+                            if (moeda.Contains("Fila Vazia"))
                             {
-                                Console.WriteLine("Não existe esse codigo de cotação.");
+                                Console.WriteLine("Fila vazia " + DateTime.Now);
+                                //Para processamento.
+                                return;
                             }
-                            TodasMoedasCotacaoPlanilha = retornaTodasMoedasCotacaoPlanilha(codCotacao, moedaObj);
-                            TodasMoedasCotacaoPlanilha = TodasMoedasCotacaoPlanilha.OrderBy(ord => ord.data_inicio).ToList();
+                            else
+                            {
+                                Moeda moedaObj = JsonConvert.DeserializeObject<Moeda>(moeda);
+                                TodasMoedasPlanilha = retornaTodasMoedasPlanilha(moedaObj);
+                                TodasMoedasPlanilha = TodasMoedasPlanilha.OrderBy(ord => ord.data_inicio).ToList();
+                                codCotacao = retornaCodCotacao(moedaObj);
+                                if (codCotacao == 0)
+                                {
+                                    Console.WriteLine("Não existe esse codigo de cotação.");
+                                }
+                                TodasMoedasCotacaoPlanilha = retornaTodasMoedasCotacaoPlanilha(codCotacao, moedaObj);
+                                TodasMoedasCotacaoPlanilha = TodasMoedasCotacaoPlanilha.OrderBy(ord => ord.data_inicio).ToList();
 
-                            salvarPlanilha(TodasMoedasCotacaoPlanilha);
-                            relogio.Stop();
-                            Console.WriteLine(DateTime.Now + " - Processado! - " + "Tempo de processamento: " + relogio.Elapsed);
+                                salvarPlanilha(TodasMoedasCotacaoPlanilha);
+                                relogio.Stop();
+                                Console.WriteLine(DateTime.Now + " - Processado! - " + "Tempo de processamento: " + relogio.Elapsed);
+
+                            }
 
                         }
-
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException);
             }
         }
 
@@ -159,7 +168,7 @@ namespace RotinaMoeda
                         {
                             retorno.Add(new MoedaModel(moeda.TipoMoeda, data, data, vlr_cotacao) { });
                         }
-                      
+
                     }
                 }
             }
@@ -177,12 +186,12 @@ namespace RotinaMoeda
                 {
                     csv.AppendLine(item.TipoMoeda.ToUpper() + ";" + item.data_inicio.Day + "/" + item.data_inicio.Month + "/" + item.data_inicio.Year + ";" + item.vlr_cotacao);
                 }
-                File.WriteAllText(filePath, csv.ToString());                
+                File.WriteAllText(filePath, csv.ToString());
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }            
+            }
         }
     }
 }
