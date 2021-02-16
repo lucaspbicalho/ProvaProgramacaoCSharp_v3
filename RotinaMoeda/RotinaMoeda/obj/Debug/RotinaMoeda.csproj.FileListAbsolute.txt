@@ -1,0 +1,10 @@
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\bin\Debug\RotinaMoeda.exe.config
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\bin\Debug\RotinaMoeda.exe
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\bin\Debug\RotinaMoeda.pdb
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\obj\Debug\RotinaMoeda.csprojAssemblyReference.cache
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\obj\Debug\RotinaMoeda.csproj.CoreCompileInputs.cache
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\obj\Debug\RotinaMoeda.exe
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\obj\Debug\RotinaMoeda.pdb
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\bin\Debug\Newtonsoft.Json.xml
+C:\Users\lucas.bicalho\source\repos\RotinaMoeda\RotinaMoeda\obj\Debug\RotinaMoeda.csproj.CopyComplete
